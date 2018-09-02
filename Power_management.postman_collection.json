@@ -1,0 +1,99 @@
+{
+	"id": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
+	"name": "Power_management",
+	"description": "",
+	"order": [
+		"024a8219-5d19-a946-4849-7e5c9dc0b232",
+		"9cd99eb5-a037-89c5-9315-95d5a6b2cdca"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1535873656642,
+	"owner": 0,
+	"public": false,
+	"events": [],
+	"variables": [],
+	"auth": null,
+	"requests": [
+		{
+			"id": "024a8219-5d19-a946-4849-7e5c9dc0b232",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "localhost:8080/power_management/register_device.php",
+			"queryParams": [],
+			"events": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "device_name",
+					"value": "",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "suport_device",
+					"value": "",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "limit_value",
+					"value": "",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "created_by",
+					"value": "",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
+			"auth": null,
+			"time": 1535873729217,
+			"name": "http://http://localhost:8080/register_device.php",
+			"description": "",
+			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "9cd99eb5-a037-89c5-9315-95d5a6b2cdca",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/power_management/reading.php",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "GET",
+			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
+			"data": null,
+			"dataMode": "params",
+			"name": "localhost:8080/power_management/reading.php",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1535873745214,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		}
+	]
+}
