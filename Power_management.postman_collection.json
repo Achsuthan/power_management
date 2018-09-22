@@ -4,7 +4,9 @@
 	"description": "",
 	"order": [
 		"024a8219-5d19-a946-4849-7e5c9dc0b232",
-		"9cd99eb5-a037-89c5-9315-95d5a6b2cdca"
+		"9cd99eb5-a037-89c5-9315-95d5a6b2cdca",
+		"6249cfeb-aeb5-f8af-74f2-807cfc60937b",
+		"a36e5641-bbf0-535a-9cf4-31c717569f2c"
 	],
 	"folders": [],
 	"folders_order": [],
@@ -17,13 +19,37 @@
 	"requests": [
 		{
 			"id": "024a8219-5d19-a946-4849-7e5c9dc0b232",
-			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n//device_name : a\n//suport_device: a\n//limit_value: a\n//created_by: a\n",
 			"headerData": [
 				{
 					"key": "Content-Type",
 					"value": "application/x-www-form-urlencoded",
 					"description": "",
 					"enabled": true
+				},
+				{
+					"key": "device_name ",
+					"value": "a",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "suport_device",
+					"value": "a",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "limit_value",
+					"value": "a",
+					"description": "",
+					"enabled": false
+				},
+				{
+					"key": "created_by",
+					"value": "a",
+					"description": "",
+					"enabled": false
 				}
 			],
 			"url": "localhost:8080/power_management/register_device.php",
@@ -35,39 +61,77 @@
 			"data": [
 				{
 					"key": "device_name",
-					"value": "",
+					"value": "AC",
 					"description": "",
 					"type": "text",
 					"enabled": true
 				},
 				{
 					"key": "suport_device",
-					"value": "",
+					"value": "thermal sensor",
 					"description": "",
 					"type": "text",
 					"enabled": true
 				},
 				{
 					"key": "limit_value",
-					"value": "",
+					"value": "20",
 					"description": "",
 					"type": "text",
 					"enabled": true
 				},
 				{
 					"key": "created_by",
-					"value": "",
+					"value": "senthu",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "voltage",
+					"value": "10",
 					"description": "",
 					"type": "text",
 					"enabled": true
 				}
 			],
-			"dataMode": "urlencoded",
+			"dataMode": "params",
 			"auth": null,
-			"time": 1535873729217,
+			"time": 1537604094376,
 			"name": "http://http://localhost:8080/register_device.php",
 			"description": "",
 			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "6249cfeb-aeb5-f8af-74f2-807cfc60937b",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/power_management/get_by_month.php",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "POST",
+			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
+			"data": [
+				{
+					"key": "device_id",
+					"value": "DIV1111",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "localhost:8080/power_management/get_by_month.php",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1537604078231,
+			"version": 2,
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null
@@ -90,6 +154,44 @@
 			"description": "",
 			"descriptionFormat": "html",
 			"time": 1535873745214,
+			"version": 2,
+			"responses": [],
+			"currentHelper": null,
+			"helperAttributes": null
+		},
+		{
+			"id": "a36e5641-bbf0-535a-9cf4-31c717569f2c",
+			"headers": "",
+			"headerData": [],
+			"url": "localhost:8080/power_management/get_by_month.php",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"events": [],
+			"auth": null,
+			"method": "POST",
+			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
+			"data": [
+				{
+					"key": "device_id",
+					"value": "DIV1111",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "",
+					"value": "",
+					"description": "",
+					"type": "text",
+					"enabled": false
+				}
+			],
+			"dataMode": "params",
+			"name": "localhost:8080/power_management/get_by_month.php",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1537605267515,
 			"version": 2,
 			"responses": [],
 			"currentHelper": null,
