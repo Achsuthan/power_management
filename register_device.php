@@ -1,7 +1,7 @@
 <?php
 
 //check whether request parameters are comming or not
-if (empty($_REQUEST["device_name"]) || empty($_REQUEST["suport_device"]) || empty($_REQUEST["limit_value"]) || empty($_REQUEST["created_by"]))
+if (empty($_REQUEST["device_name"]) || empty($_REQUEST["suport_device"]) || empty($_REQUEST["limit_value"]) || empty($_REQUEST["created_by"]) || empty($_REQUEST["voltage"]))
 {
 
     //error message if those values contain null or not assign
@@ -13,6 +13,7 @@ if (empty($_REQUEST["device_name"]) || empty($_REQUEST["suport_device"]) || empt
 }
 //success if all the values enterd correctly
 else {
+    $voltage = $_REQUEST["voltage"];
     $device_name = $_REQUEST["device_name"];
     $suport_device = $_REQUEST["suport_device"];
     $limit_value = $_REQUEST["limit_value"];
@@ -40,7 +41,7 @@ else {
 
 
     //call the register_device function to check whether the given username and password is available in the database
-    $result = $access->register_device($device_name, $suport_device, $limit_value, $created_by);
+    $result = $access->register_device($device_name, $suport_device, $limit_value, $created_by,$voltage);
     if ($result != "") {
         //found result
         $output["status"] = "200";

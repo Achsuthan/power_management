@@ -46,12 +46,12 @@ class access
     }
 
     //Register device
-    public function register_device($device_name,$suport_device,$limit_value,$created_by)
+    public function register_device($device_name,$suport_device,$limit_value,$created_by,$voltage)
     {
         $this->createid_deviceid();  //crate auto increment id for the user
         $created_date = date("Y-m-d h:i:s");
-        $sql = "INSERT INTO device  (id, device_name, suport_device, limit_value, created_date, created_by)
-        VALUES ('$this->uid','$device_name', '$suport_device', '$limit_value', '$created_date', '$created_by')";
+        $sql = "INSERT INTO device  (id, device_name, suport_device, limit_value, created_date, created_by,voltage)
+        VALUES ('$this->uid','$device_name', '$suport_device', '$limit_value', '$created_date', '$created_by','$voltage')";
 
         if ($this->con->query($sql) === TRUE) {
         } else {
@@ -86,6 +86,28 @@ class access
         }
     }
 
+    public function createid_readingid()
+    {
+
+        $sql= "Select * from reading ORDER BY id DESC LIMIT 1; ";  //get the last value form the database
+
+        $result=$this->con->query($sql); //get the result by executing the sql query
+
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row=$result->fetch_array(MYSQLI_ASSOC);   //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                $id=substr($row["id"], 3, 6);  //get the integer potion part for  fro example if the database contain a uid USR111111, get the last 6 digit
+                $id=$id+1;  //increase the last 6 digit value by one
+                $this->uid="RED".$id;  //asign back to id as a USR111112
+            }
+        }
+        else {
+            $this->uid = "RED1111";
+        }
+    }
+
     public function check_device($device_id){
         $sql = "SELECT id FROM device WHERE id ='$device_id'";
         $result = $this->con->query($sql);
@@ -110,26 +132,27 @@ class access
                 if($last_value->num_rows > 0){
 
                     $duration = 0;
+                    $usage = 0;
                     while ($row = mysqli_fetch_assoc($last_value)) {
 
+                        $timeFirst  = strtotime($row["recorded_date"]);
+                        $timeSecond = strtotime(date("Y-m-d h:i:s"));
+                        $differenceInSeconds = $timeSecond - $timeFirst;
+
                         if ($row["is_on"] != 2){
-                            $timeFirst  = strtotime($row["recorded_date"]);
-                            $timeSecond = strtotime(date("Y-m-d h:i:s"));
-                            $differenceInSeconds = $timeSecond - $timeFirst;
-    
-    
                             $duration = $differenceInSeconds + $row["duration"];
                         }
                         else {
                             $duration = $row["duration"];
                         }
+                        $usage = $usage + $differenceInSeconds;
                         break;
                     }
 
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration, device_id)
-                    VALUES ('$this->uid','$value', '$created_date', '$is_on','$duration', '$device_id')";
+                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration, usage,device_id)
+                    VALUES ('$this->uid','$value', '$created_date', '$is_on','$duration', '$usage','$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
@@ -142,8 +165,8 @@ class access
                 else{
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration, device_id)
-                    VALUES ('$this->uid','$value', '$created_date', '$is_on', '0', '$device_id')";
+                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage ,device_id)
+                    VALUES ('$this->uid','$value', '$created_date', '$is_on', '0', '0','$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
@@ -160,16 +183,24 @@ class access
                 if($last_value->num_rows > 0){
 
                     $duration = 0;
+                    $usage = 0;
+                    $lastDate = "";
                     while ($row = mysqli_fetch_assoc($last_value)) {
                         echo $row["duration"];
                         $duration = $row["duration"];
+                        $usage = $row["usage"];
+                        $lastDate = strtotime($row["recorded_date"]);
                         break;
                     }
+                    $timeSecond = strtotime(date("Y-m-d h:i:s"));
+                    $differenceInSeconds = $timeSecond - $lastDate;
+                    $usage = $usage + $differenceInSeconds;
+
 
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration, device_id)
-                    VALUES ('$this->uid','$value', '$created_date', '$is_on','$duration', '$device_id')";
+                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage, device_id)
+                    VALUES ('$this->uid','$value', '$created_date', '$is_on','$duration', '$usage','$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
@@ -181,8 +212,8 @@ class access
                 else {
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration, device_id)
-                    VALUES ('$this->uid','$value', '$created_date', '$is_on', '0', '$device_id')";
+                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage, device_id)
+                    VALUES ('$this->uid','$value', '$created_date', '$is_on', '0','0','$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
@@ -197,8 +228,8 @@ class access
         else {
             $this->createid_readingid();  //crate auto increment id for the user
             $created_date = date("Y-m-d h:i:s");
-            $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration, device_id)
-            VALUES ('$this->uid','$value', '$created_date', '$is_on', '0', '$device_id')";
+            $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage, device_id)
+            VALUES ('$this->uid','$value', '$created_date', '$is_on', '0','0','$device_id')";
 
             if ($this->con->query($sql) === TRUE) {
             } else {
@@ -228,6 +259,7 @@ class access
 
         if ($result->num_rows > 0) {
             //value available
+            
             return 1;
         } else {
             //value not available
@@ -253,26 +285,87 @@ class access
 
 
     //creating userid with specific string and number
-    public function createid_readingid()
+    public function get_week_wise_data($id)
     {
-
-        $sql= "Select * from reading ORDER BY id DESC LIMIT 1; ";  //get the last value form the database
-
+        $sql= "select * from reading where device_id = '$id' group by from_unixtime(recorded_date, '%Y%m')";  //get the last value form the database
         $result=$this->con->query($sql); //get the result by executing the sql query
-
-        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
-        {
-            $row=$result->fetch_array(MYSQLI_ASSOC);   //get the rows value form the database and assign that value to row
-            if(!empty($row))  //check whether the variable row contain value or not
-            {
-                $id=substr($row["id"], 3, 6);  //get the integer potion part for  fro example if the database contain a uid USR111111, get the last 6 digit
-                $id=$id+1;  //increase the last 6 digit value by one
-                $this->uid="RED".$id;  //asign back to id as a USR111112
+        //print_r($result);
+        if ($result->num_rows > 0) {
+            //value available
+            print_r($result);
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo $row["id"];
             }
-        }
-        else {
-            $this->uid = "RED1111";
+            return $result;
+        } else {
+            //value not available
+            return $result;
         }
     }
+
+    public function get_by_month($id){
+        $sql= "SELECT * FROM reading WHERE device_id = '$id' and recorded_date IN (SELECT   MAX(recorded_date)FROM reading GROUP BY MONTH(recorded_date), YEAR(recorded_date))ORDER BY id DESC";  //get the last value form the database
+        $result=$this->con->query($sql); //get the result by executing the sql query
+        if ($result->num_rows > 0) {
+            //value available
+            $usage = "";
+            $wastage = "";
+            while ($row = mysqli_fetch_assoc($result)) {
+                $usage = $row["usage"];
+                $wastage = $row["duration"];
+                break;
+            }
+            $output["usage"] = $usage;
+            $output["wastage"] = $wastage;
+            return $output;
+        } else {
+            //value not available
+            return [];
+        }
+    }
+
+    public function get_by_month_money($id){
+
+        $voltage = "";
+
+        $sql_voltage= "SELECT voltage FROM device WHERE id = '$id'";  //get the last value form the database
+        $result_voltage=$this->con->query($sql); //get the result by executing the sql query
+        if ($result_voltage->num_rows > 0) {
+            
+            while ($row = mysqli_fetch_assoc($result)) {
+                $voltage = $row["voltage"];
+                break;
+            }
+
+            $sql= "SELECT * FROM reading WHERE device_id = '$id' and recorded_date IN (SELECT   MAX(recorded_date)FROM reading GROUP BY MONTH(recorded_date), YEAR(recorded_date))ORDER BY id DESC";  //get the last value form the database
+            $result=$this->con->query($sql); //get the result by executing the sql query
+            if ($result->num_rows > 0) {
+                //value available
+                $usage = "";
+                $wastage = "";
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $usage = $row["usage"];
+                    $wastage = $row["duration"];
+                    break;
+                }
+                $output["usage"] = $usage;
+                $output["wastage"] = $wastage;
+                return $output;
+        } else {
+            //value not available
+            return [];
+        }
+        } else {
+            //value not available
+            return [];
+        }
+
+
+
+        
+    }
+
+
+    //
 }
 ?>
