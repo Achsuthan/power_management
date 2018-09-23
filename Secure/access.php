@@ -151,7 +151,7 @@ class access
 
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration, usage,device_id)
+                    $sql = "INSERT INTO reading  (`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) 
                     VALUES ('$this->uid','$value', '$created_date', '$is_on','$duration', '$usage','$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
@@ -165,8 +165,8 @@ class access
                 else{
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage ,device_id)
-                    VALUES ('$this->uid','$value', '$created_date', '$is_on', '0', '0','$device_id')";
+                    $sql = "INSERT INTO reading  (`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) 
+                    VALUES ('$this->uid','$value', '$created_date', '$is_on', 0, 0,'$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
@@ -199,7 +199,7 @@ class access
 
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage, device_id)
+                    $sql = "INSERT INTO reading  (`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) 
                     VALUES ('$this->uid','$value', '$created_date', '$is_on','$duration', '$usage','$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
@@ -212,7 +212,7 @@ class access
                 else {
                     $this->createid_readingid();  //crate auto increment id for the user
                     $created_date = date("Y-m-d h:i:s");
-                    $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage, device_id)
+                    $sql = "INSERT INTO reading  (`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) 
                     VALUES ('$this->uid','$value', '$created_date', '$is_on', '0','0','$device_id')";
 
                     if ($this->con->query($sql) === TRUE) {
@@ -226,10 +226,14 @@ class access
             }
         }
         else {
+            print("hello");
             $this->createid_readingid();  //crate auto increment id for the user
             $created_date = date("Y-m-d h:i:s");
-            $sql = "INSERT INTO reading  (id, value, recorded_date, is_on, duration,usage, device_id)
-            VALUES ('$this->uid','$value', '$created_date', '$is_on', '0','0','$device_id')";
+            $sql = "INSERT INTO reading  (`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) 
+            VALUES ('$this->uid','$value', '$created_date', '$is_on', '0', '0', '$device_id')";
+
+            // $sql = "INSERT INTO `reading`(`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) 
+            // VALUES ('$this->uid','$value', '$created_date', '$is_on', '0','0', '$device_id')"
 
             if ($this->con->query($sql) === TRUE) {
             } else {
