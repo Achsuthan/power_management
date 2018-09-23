@@ -50,7 +50,7 @@ class access
     {
         $this->createid_deviceid();  //crate auto increment id for the user
         $created_date = date("Y-m-d h:i:s");
-        $sql = "INSERT INTO device  (id, device_name, suport_device, limit_value, created_date, created_by,voltage)
+        $sql = "INSERT INTO device  (id, device_name, suport_device, limit_value, created_date, created_by,watt)
         VALUES ('$this->uid','$device_name', '$suport_device', '$limit_value', '$created_date', '$created_by','$voltage')";
 
         if ($this->con->query($sql) === TRUE) {
@@ -328,12 +328,12 @@ class access
 
         $voltage = "";
 
-        $sql_voltage= "SELECT voltage FROM device WHERE id = '$id'";  //get the last value form the database
-        $result_voltage=$this->con->query($sql); //get the result by executing the sql query
+        $sql_voltage= "SELECT watt FROM device WHERE id = '$id'";  //get the last value form the database
+        $result_voltage=$this->con->query($sql_voltage); //get the result by executing the sql query
         if ($result_voltage->num_rows > 0) {
             
-            while ($row = mysqli_fetch_assoc($result)) {
-                $voltage = $row["voltage"];
+            while ($row = mysqli_fetch_assoc($result_voltage)) {
+                $voltage = $row["watt"];
                 break;
             }
 
@@ -350,6 +350,60 @@ class access
                 }
                 $output["usage"] = $usage;
                 $output["wastage"] = $wastage;
+
+
+                $unit = ($usage * $voltage )/(1000 * 3600);
+                $price = "" ;
+
+                if ($unit > 180) {
+                    $tunit = $unit - 180; 
+                    $price = $tunit * 45 + 60 * 32 + 30 * 27.75 + 30 * 10 + 60 * 7.85 + 540;
+                }
+                else if ($unit > 120) {
+                    $tunit = $unit - 120;
+                    $price = $tunit * 32 + 30 * 27.75 + 30 * 10 + 60 * 7.85 + 480; 
+                }
+                else if ($unit > 90 ){
+                    $tunit = $unit - 90;
+                    $price = $tunit * 27.75 + 30 * 10 + 60 * 7.85 + 480;
+                }
+                else if ($unit > 60){
+                    $tunit = $unit - 60;
+                    $price = $tunit * 10 + 60 * 7.85 + 90;
+                }
+                else {
+                    $price = $unit * 7.85;
+                }
+
+                $output["usageCharge"] = $price;
+
+                $Actualunit = ($usage * $voltage )/(1000 * 3600) - ($wastage * $voltage)/(1000 * 36000);
+                $pprice = "";
+                if ($unit > 180) {
+                    $tunit = $Actualunit - 180; 
+                    $pprice = $tunit * 45 + 60 * 32 + 30 * 27.75 + 30 * 10 + 60 * 7.85 + 540;
+                }
+                else if ($unit > 120) {
+                    $tunit = $Actualunit - 120;
+                    $pprice = $tunit * 32 + 30 * 27.75 + 30 * 10 + 60 * 7.85 + 480; 
+                }
+                else if ($unit > 90 ){
+                    $tunit = $Actualunit - 90;
+                    $pprice = $tunit * 27.75 + 30 * 10 + 60 * 7.85 + 480;
+                }
+                else if ($unit > 60){
+                    $tunit = $Actualunit - 60;
+                    $pprice = $tunit * 10 + 60 * 7.85 + 90;
+                }
+                else {
+                    $pprice = $Actualunit * 7.85;
+                }
+
+
+
+
+
+                $output["wastageCharge"] = floatval($price) - floatval($pprice);
                 return $output;
         } else {
             //value not available

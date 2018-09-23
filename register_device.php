@@ -1,7 +1,7 @@
 <?php
 
 //check whether request parameters are comming or not
-if (empty($_REQUEST["device_name"]) || empty($_REQUEST["suport_device"]) || empty($_REQUEST["limit_value"]) || empty($_REQUEST["created_by"]) || empty($_REQUEST["voltage"]))
+if (empty($_REQUEST["device_name"]) || empty($_REQUEST["suport_device"]) || empty($_REQUEST["limit_value"]) || empty($_REQUEST["created_by"]) || empty($_REQUEST["watt"]))
 {
 
     //error message if those values contain null or not assign
@@ -13,7 +13,7 @@ if (empty($_REQUEST["device_name"]) || empty($_REQUEST["suport_device"]) || empt
 }
 //success if all the values enterd correctly
 else {
-    $voltage = $_REQUEST["voltage"];
+    $voltage = $_REQUEST["watt"];
     $device_name = $_REQUEST["device_name"];
     $suport_device = $_REQUEST["suport_device"];
     $limit_value = $_REQUEST["limit_value"];

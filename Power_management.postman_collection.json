@@ -88,7 +88,7 @@
 					"enabled": true
 				},
 				{
-					"key": "voltage",
+					"key": "watt",
 					"value": "10",
 					"description": "",
 					"type": "text",
@@ -97,7 +97,7 @@
 			],
 			"dataMode": "params",
 			"auth": null,
-			"time": 1537604094376,
+			"time": 1537685816101,
 			"name": "http://http://localhost:8080/register_device.php",
 			"description": "",
 			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
@@ -111,12 +111,10 @@
 			"headerData": [],
 			"url": "localhost:8080/power_management/get_by_month.php",
 			"queryParams": [],
+			"events": [],
 			"pathVariables": {},
 			"pathVariableData": [],
-			"events": [],
-			"auth": null,
 			"method": "POST",
-			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
 			"data": [
 				{
 					"key": "device_id",
@@ -127,34 +125,61 @@
 				}
 			],
 			"dataMode": "params",
+			"auth": null,
+			"time": 1537685818869,
 			"name": "localhost:8080/power_management/get_by_month.php",
 			"description": "",
-			"descriptionFormat": "html",
-			"time": 1537604078231,
-			"version": 2,
+			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null
 		},
 		{
 			"id": "9cd99eb5-a037-89c5-9315-95d5a6b2cdca",
-			"headers": "",
-			"headerData": [],
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"description": "",
+					"enabled": true
+				}
+			],
 			"url": "localhost:8080/power_management/reading.php",
 			"queryParams": [],
+			"events": [],
 			"pathVariables": {},
 			"pathVariableData": [],
-			"events": [],
-			"auth": null,
-			"method": "GET",
-			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
-			"data": null,
+			"method": "POST",
+			"data": [
+				{
+					"key": "device_id",
+					"value": "DIV1111",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "is_on",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "value",
+					"value": "22",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
 			"dataMode": "params",
+			"auth": null,
+			"time": 1537685817780,
 			"name": "localhost:8080/power_management/reading.php",
 			"description": "",
-			"descriptionFormat": "html",
-			"time": 1535873745214,
-			"version": 2,
+			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null
@@ -163,14 +188,12 @@
 			"id": "a36e5641-bbf0-535a-9cf4-31c717569f2c",
 			"headers": "",
 			"headerData": [],
-			"url": "localhost:8080/power_management/get_by_month.php",
+			"url": "localhost:8080/power_management/get_by_month_money.php",
 			"queryParams": [],
+			"events": [],
 			"pathVariables": {},
 			"pathVariableData": [],
-			"events": [],
-			"auth": null,
 			"method": "POST",
-			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
 			"data": [
 				{
 					"key": "device_id",
@@ -188,11 +211,11 @@
 				}
 			],
 			"dataMode": "params",
+			"auth": null,
+			"time": 1537685819652,
 			"name": "localhost:8080/power_management/get_by_month.php",
 			"description": "",
-			"descriptionFormat": "html",
-			"time": 1537605267515,
-			"version": 2,
+			"collectionId": "fb2d0f54-5419-b50f-b603-85fd3a1a63e2",
 			"responses": [],
 			"currentHelper": null,
 			"helperAttributes": null
