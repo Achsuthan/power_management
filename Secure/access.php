@@ -145,7 +145,7 @@ class access
                         else {
                             $duration = $row["duration"];
                         }
-                        $usage = $usage + $differenceInSeconds;
+                        $usage = $row["usage"] + $differenceInSeconds;
                         break;
                     }
 
