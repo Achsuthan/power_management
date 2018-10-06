@@ -134,13 +134,6 @@ class access
                     $userEmail = $row["created_by"];
                 }
             }
-            
-            // the message
-            $msg = "Please consider about your device working status";
-            // use wordwrap() if lines are longer than 70 characters
-            $msg = wordwrap($msg,70);
-            // send email
-            mail($userEmail,"Exceed the limt value",$msg);
             if ($this->check_limit_value($device_id,$value) == 1 ){
                 $last_value = $this->get_last_value_in_reading_based_on_device_id($device_id);
                 
@@ -273,15 +266,34 @@ class access
     }
 
     public function check_limit_value($device_id, $value){
-        $sql = "SELECT id FROM device WHERE limit_value < $value and id = '$device_id'";
-        $result = $this->con->query($sql);
 
-        if ($result->num_rows > 0) {
-            //value available
-            
-            return 1;
-        } else {
-            //value not available
+
+        $sql= "Select * from device id = '$device_id' ";  //get the last value form the database
+
+        $result=$this->con->query($sql); //get the result by executing the sql query
+
+        if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
+        {
+            $row=$result->fetch_array(MYSQLI_ASSOC);   //get the rows value form the database and assign that value to row
+            if(!empty($row))  //check whether the variable row contain value or not
+            {
+                $limit_value=$row["limit_value"];  //get the integer potion part for  fro example if the database contain a uid USR111111, get the last 6 digit
+                $value = $value - ($limit_value*5/100);
+                $sql = "SELECT id FROM device WHERE limit_value < $value and id = '$device_id'";
+                $result = $this->con->query($sql);
+
+                if ($result->num_rows > 0) {
+                //value available
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+            else {
+                return 0;
+            }
+        }
+        else {
             return 0;
         }
     }
