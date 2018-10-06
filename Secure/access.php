@@ -457,9 +457,12 @@ class access
                 if ($this->con->query($sql) === TRUE) {
                     $delete_sql = "DELETE FROM reading WHERE device_id= '".$id."'";
                     if ($this->con->query($delete_sql) === TRUE) {
+                        
                     } else {
+
                     } 
                 } else {
+
                 }
 
 
