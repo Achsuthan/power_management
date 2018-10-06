@@ -31,7 +31,7 @@ class access
         $this->con=new mysqli($this->host,$this->user,$this->pass,$this->dbname);  //get the host,user,password and the dbname from the caller
         if(mysqli_connect_error())  //check whether the db connection contain any error
         {
-            echo "Could no connect databe"; //prompt the error message
+            //echo "Could no connect databe"; //prompt the error message
         }
         $this->con->set_charset("utf8");
     }
@@ -50,12 +50,12 @@ class access
     {
         $this->createid_deviceid();  //crate auto increment id for the user
         $created_date = date("Y-m-d h:i:s");
-        $sql = "INSERT INTO device  (id, device_name, suport_device, limit_value, created_date, created_by,watt)
+        $sql = "INSERT INTO device  (id, device_name, suport_device, limit_value, created_date, created_by,voltage)
         VALUES ('$this->uid','$device_name', '$suport_device', '$limit_value', '$created_date', '$created_by','$voltage')";
 
         if ($this->con->query($sql) === TRUE) {
         } else {
-            echo "Error: " . $sql . "<br>" . $this->con->error;
+            //echo "Error: " . $sql . "<br>" . $this->con->error;
             return "";
         }
 
@@ -135,6 +135,8 @@ class access
                 }
             }
             if ($this->check_limit_value($device_id,$value) == 1 ){
+
+                $this->sendMail($userEmail,"Hello User","Limit exceed");
                 $last_value = $this->get_last_value_in_reading_based_on_device_id($device_id);
                 
                 if($last_value->num_rows > 0){
@@ -164,7 +166,7 @@ class access
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
-                        echo "Error: " . $sql . "<br>" . $this->con->error;
+                        //echo "Error: " . $sql . "<br>" . $this->con->error;
                         return "";
                     }
                     return $this->uid;   //return the caller to notify that the user is inserted successfully
@@ -178,14 +180,14 @@ class access
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
-                        echo "Error: " . $sql . "<br>" . $this->con->error;
+                        //echo "Error: " . $sql . "<br>" . $this->con->error;
                         return "";
                     }
                     return $this->uid;   //return the caller to notify that the user is inserted successfully
                 }
             }
             else {
-                echo "less than the limit value";
+                //echo "less than the limit value";
                 $last_value = $this->get_last_value_in_reading_based_on_device_id($device_id);
                 
                 if($last_value->num_rows > 0){
@@ -194,7 +196,7 @@ class access
                     $usage = 0;
                     $lastDate = "";
                     while ($row = mysqli_fetch_assoc($last_value)) {
-                        echo $row["duration"];
+                        //echo $row["duration"];
                         $duration = $row["duration"];
                         $usage = $row["usage"];
                         $lastDate = strtotime($row["recorded_date"]);
@@ -212,7 +214,7 @@ class access
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
-                        echo "Error: " . $sql . "<br>" . $this->con->error;
+                        //echo "Error: " . $sql . "<br>" . $this->con->error;
                         return "";
                     }
                     return $this->uid;
@@ -225,7 +227,7 @@ class access
 
                     if ($this->con->query($sql) === TRUE) {
                     } else {
-                        echo "Error: " . $sql . "<br>" . $this->con->error;
+                        //echo "Error: " . $sql . "<br>" . $this->con->error;
                         return "";
                     }
                     return $this->uid;   //return the caller to notify that the user is inserted successfully
@@ -234,7 +236,7 @@ class access
             }
         }
         else {
-            print("hello");
+            //print("hello");
             $this->createid_readingid();  //crate auto increment id for the user
             $created_date = date("Y-m-d h:i:s");
             $sql = "INSERT INTO reading  (`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) 
@@ -245,7 +247,7 @@ class access
 
             if ($this->con->query($sql) === TRUE) {
             } else {
-                echo "Error: " . $sql . "<br>" . $this->con->error;
+                //echo "Error: " . $sql . "<br>" . $this->con->error;
                 return "";
             }
             return $this->uid;   //return the caller to notify that the user is inserted successfully
@@ -267,18 +269,20 @@ class access
 
     public function check_limit_value($device_id, $value){
 
-
-        $sql= "Select * from device id = '$device_id' ";  //get the last value form the database
+        
+        $sql= "Select * from device where id = '$device_id' ";  //get the last value form the database
 
         $result=$this->con->query($sql); //get the result by executing the sql query
 
         if ($result !=null && (mysqli_num_rows($result)>=1))  //check whether the the result contain value or not
         {
+            
             $row=$result->fetch_array(MYSQLI_ASSOC);   //get the rows value form the database and assign that value to row
             if(!empty($row))  //check whether the variable row contain value or not
             {
                 $limit_value=$row["limit_value"];  //get the integer potion part for  fro example if the database contain a uid USR111111, get the last 6 digit
                 $value = $value - ($limit_value*5/100);
+                //print($value);
                 $sql = "SELECT id FROM device WHERE limit_value < $value and id = '$device_id'";
                 $result = $this->con->query($sql);
 
@@ -336,9 +340,9 @@ class access
         //print_r($result);
         if ($result->num_rows > 0) {
             //value available
-            print_r($result);
+            //print_r($result);
             while ($row = mysqli_fetch_assoc($result)) {
-                echo $row["id"];
+                //echo $row["id"];
             }
             return $result;
         } else {
@@ -371,13 +375,12 @@ class access
     public function get_by_month_money($id){
 
         $voltage = "";
-
-        $sql_voltage= "SELECT watt FROM device WHERE id = '$id'";  //get the last value form the database
+        $sql_voltage= "SELECT voltage FROM device WHERE id = '$id'";  //get the last value form the database
         $result_voltage=$this->con->query($sql_voltage); //get the result by executing the sql query
         if ($result_voltage->num_rows > 0) {
             
             while ($row = mysqli_fetch_assoc($result_voltage)) {
-                $voltage = $row["watt"];
+                $voltage = $row["voltage"];
                 break;
             }
 
@@ -443,11 +446,23 @@ class access
                     $pprice = $Actualunit * 7.85;
                 }
 
-
-
-
-
                 $output["wastageCharge"] = floatval($price) - floatval($pprice);
+
+                $outputUsage = $output["usage"];
+                $oututWastage = $output["wastage"];
+                $outputUsageCharge = $output["usageCharge"];
+                $outputWastageCharge = $output["wastageCharge"];
+                $sql = "INSERT INTO reading_month (usage_time, wastage_time, usageCharge,wastageCharge,device_id)
+                VALUES ('".$outputUsage."', '".$oututWastage."','".$outputUsageCharge."','".$outputWastageCharge."','".$id."')";
+                if ($this->con->query($sql) === TRUE) {
+                    $delete_sql = "DELETE FROM reading WHERE device_id= '".$id."'";
+                    if ($this->con->query($delete_sql) === TRUE) {
+                    } else {
+                    } 
+                } else {
+                }
+
+
                 return $output;
         } else {
             //value not available
@@ -461,6 +476,37 @@ class access
 
 
         
+    }
+
+    public function sendMail($receiver, $body, $subject){
+        //MARK: - Sending Mail
+        require("vendor/autoload.php");
+        require_once('vendor/phpmailer/phpmailer/PHPMailerAutoload.php');
+        $mail = new PHPMailer();
+        //$mail->SMTPDebug = 2;
+
+        $mail->isSMTP();
+        $mail->Host       = "ssl://smtp.gmail.com:465";
+        $mail->SMTPAuth   = true;
+        $mail->Password   = "achsuthan4455878";
+        $mail->SMTPSecure = "ssl";
+        $mail->Port       = 465;
+        $mail->Username   = "achsuthancopy9314@gmail.com";
+        $mail->From       = "noreplay@income.lk";
+        $mail->FromName   = $receiver;
+        $mail->addAddress($receiver, "");
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+        $mail->AltBody = " ";
+        if (!$mail->send()) {
+            //echo "Mailer Error: " . $mail->ErrorInfo;
+            $status = true;
+        } else {
+            //echo "Message has been sent successfully";
+            $status = false;
+        }
+        return $status;
     }
 
 
