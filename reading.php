@@ -45,12 +45,12 @@ $file = parse_ini_file("Test.ini"); //get the database name,username ,password v
             //found result
             $output["status"] = "200";
             $output["id"] = $result;
-            $output["message"] = "Device registered successfully";
+            $output["message"] = "Reading value registered successfully";
             echo json_encode($output);
         } else {
             //error result
             $returnArray["status"] = "400";
-            $returnArray["message"] = "Device not registered successfully";
+            $returnArray["message"] = "Reading values are not registered successfully";
             echo json_encode($returnArray);
         }
 

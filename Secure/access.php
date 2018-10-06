@@ -126,6 +126,21 @@ class access
     {
         $device_details = $this->check_deviceid($device_id);
         if ($device_details->num_rows > 0) {
+            $userEmail = "";
+
+            $device_email = $this->getEmail($device_id);
+            if ($device_email->num_rows > 0) {
+                while ($row = mysqli_fetch_assoc($device_email)) {
+                    $userEmail = $row["created_by"];
+                }
+            }
+            
+            // the message
+            $msg = "Please consider about your device working status";
+            // use wordwrap() if lines are longer than 70 characters
+            $msg = wordwrap($msg,70);
+            // send email
+            mail($userEmail,"Exceed the limt value",$msg);
             if ($this->check_limit_value($device_id,$value) == 1 ){
                 $last_value = $this->get_last_value_in_reading_based_on_device_id($device_id);
                 
@@ -275,7 +290,20 @@ class access
     //creating userid with specific string and number
     public function check_deviceid($device_id)
     {
-        $sql = "SELECT id FROM reading WHERE device_id ='$device_id'";
+        $sql = "SELECT * FROM reading WHERE device_id ='$device_id'";
+        $result = $this->con->query($sql);
+
+        if ($result->num_rows > 0) {
+            //value available
+            return $result;
+        } else {
+            //value not available
+            return $result;
+        }
+    }
+
+    public function getEmail($device_id){
+        $sql = "SELECT * FROM device WHERE id ='$device_id'";
         $result = $this->con->query($sql);
 
         if ($result->num_rows > 0) {
