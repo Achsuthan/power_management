@@ -51,7 +51,7 @@ else {
     } else {
         //error result
         $returnArray["status"] = "400";
-        $returnArray["message"] = "Device not registered successfully";
+        $returnArray["message"] = "Device not registered";
         echo json_encode($returnArray);
     }
 
@@ -60,7 +60,7 @@ else {
     }
     else {
         $returnArray["status"]=800;
-        $returnArray["message"]="Missing Required informationa";
+        $returnArray["message"]="Missing Required information";
         echo json_encode($returnArray);
         return;
     }

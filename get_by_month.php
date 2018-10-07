@@ -40,12 +40,12 @@ if (count($result) > 0) {
     //found result
     $output["status"] = "200";
     $output["history"] = $result;
-    $output["message"] = "Monthly Details recorded successfully";
+    $output["message"] = "Monthly electricity Usage and Wastage recorded successfully";
     echo json_encode($output);
 } else {
     //error result
     $returnArray["status"] = "400";
-    $returnArray["message"] = "Monthly Details are not satisfied";
+    $returnArray["message"] = "Monthly electricity Usage and Wastage not recorded";
     echo json_encode($returnArray);
 }
 
