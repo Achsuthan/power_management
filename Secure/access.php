@@ -1,9 +1,7 @@
 <?php
-
 //this class is going to interact with the database
 class access
 {
-
     //create needed variable for this class
 
     var $host=null;
@@ -425,7 +423,6 @@ class access
                 }
 
                 $output["usageCharge"] = $price;
-
                 $Actualunit = ($usage * $voltage )/(1000 * 3600) - ($wastage * $voltage)/(1000 * 36000);
                 $pprice = "";
                 if ($unit > 180) {
@@ -455,7 +452,6 @@ class access
                 $outputUsageCharge = $output["usageCharge"];
                 $outputWastageCharge = $output["wastageCharge"];
 
-
                 $this->sendMail($userEmail,"Usage in miliseconds $outputUsage Wastage in miliseconds $oututWastage Usage Amount $outputUsageCharge Wastage Amount $outputWastageCharge","Monthly usage result");
                 $sql = "INSERT INTO reading_month (usage_time, wastage_time, usageCharge,wastageCharge,device_id)
                 VALUES ('".$outputUsage."', '".$oututWastage."','".$outputUsageCharge."','".$outputWastageCharge."','".$id."')";
@@ -469,8 +465,6 @@ class access
                 } else {
 
                 }
-
-
                 return $output;
         } else {
             //value not available
@@ -480,12 +474,7 @@ class access
             //value not available
             return [];
         }
-
-
-
-        
     }
-
     public function sendMail($receiver, $body, $subject){
         //MARK: - Sending Mail
         require("vendor/autoload.php");
@@ -516,8 +505,5 @@ class access
         }
         return $status;
     }
-
-
-    //
 }
 ?>
