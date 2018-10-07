@@ -456,7 +456,7 @@ class access
                 $outputWastageCharge = $output["wastageCharge"];
 
 
-                $this->sendMail($userEmail,"Usage in miliseconds $outputUsage Wastage in miliseconds $outputWastage Usage Amount $outputUsageCharge Wastage Amount $outputWastageCharge","Monthly usage result");
+                $this->sendMail($userEmail,"Usage in miliseconds $outputUsage Wastage in miliseconds $oututWastage Usage Amount $outputUsageCharge Wastage Amount $outputWastageCharge","Monthly usage result");
                 $sql = "INSERT INTO reading_month (usage_time, wastage_time, usageCharge,wastageCharge,device_id)
                 VALUES ('".$outputUsage."', '".$oututWastage."','".$outputUsageCharge."','".$outputWastageCharge."','".$id."')";
                 if ($this->con->query($sql) === TRUE) {
