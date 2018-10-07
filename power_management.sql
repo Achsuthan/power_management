@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 22, 2018 at 10:33 AM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- Generation Time: Oct 07, 2018 at 04:17 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 7.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -43,9 +43,10 @@ CREATE TABLE `device` (
 --
 
 INSERT INTO `device` (`id`, `device_name`, `suport_device`, `limit_value`, `created_date`, `created_by`, `voltage`) VALUES
-('DIV1111', 'AC', 'thermal sensor', '20', '2018-09-02 01:29:53', 'senthu', '20'),
-('DIV1112', 'AC', 'thermal sensor', '20', '2018-09-02 01:32:46', 'senthu', '5'),
-('DIV1113', 'AC', 'thermal sensor', '20', '2018-09-22 10:16:35', 'senthu', '10');
+('DIV1111', 'AC', 'thermal sensor', '20', '2018-09-02 01:29:53', 'achsuthan@icloud.com', '20'),
+('DIV1112', 'AC', 'thermal sensor', '20', '2018-09-02 01:32:46', 'shankavi3.st@gmail.com', '5'),
+('DIV1113', 'AC', 'thermal sensor', '20', '2018-09-22 10:16:35', 'shankavi3.st@gmail.com', '10'),
+('DIV1114', 'AC', 'thermal sensor', '20', '2018-10-07 03:53:36', 'senthu', '10');
 
 -- --------------------------------------------------------
 
@@ -63,40 +64,32 @@ CREATE TABLE `reading` (
   `device_id` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `reading`
+-- Table structure for table `reading_month`
 --
 
-INSERT INTO `reading` (`id`, `value`, `recorded_date`, `is_on`, `duration`, `usage`, `device_id`) VALUES
-('RED1111', '21', '2018-09-02 01:30:19', '1', '0', '3434', 'DIV1111'),
-('RED1112', '21', '2018-09-02 01:30:32', '1', '13', '121', 'DIV1111'),
-('RED1113', '21', '2018-09-02 01:30:33', '1', '14', '112', 'DIV1111'),
-('RED1114', '21', '2018-09-02 01:30:33', '1', '14', '12', 'DIV1111'),
-('RED1115', '21', '2018-09-02 01:30:33', '1', '14', '2323', 'DIV1111'),
-('RED1116', '21', '2018-09-02 01:30:51', '2', '32', '232', 'DIV1111'),
-('RED1117', '10', '2018-09-02 01:31:05', '1', '32', '232', 'DIV1111'),
-('RED1118', '10', '2018-09-02 01:31:06', '1', '32', '2323', 'DIV1111'),
-('RED1119', '10', '2018-09-02 01:31:07', '1', '32', '2323', 'DIV1111'),
-('RED1120', '24', '2018-09-02 01:31:19', '1', '44', '232', 'DIV1111'),
-('RED1121', '24', '2018-09-02 01:33:04', '1', '0', '232', 'DIV1112'),
-('RED1122', '24', '2018-09-02 01:33:04', '1', '0', '232', 'DIV1112'),
-('RED1123', '24', '2018-09-02 01:33:05', '1', '1', '232', 'DIV1112'),
-('RED1124', '24', '2018-09-02 01:33:05', '1', '1', '2323', 'DIV1112'),
-('RED1125', '24', '2018-09-02 01:33:05', '1', '1', '2', 'DIV1112'),
-('RED1126', '24', '2018-09-02 01:33:05', '1', '1', '32', 'DIV1112'),
-('RED1127', '12', '2018-09-02 01:33:16', '1', '1', '232', 'DIV1112'),
-('RED1128', '22', '2018-09-02 01:33:28', '1', '173', '232', 'DIV1111'),
-('RED1129', '22', '2018-09-22 08:55:12', '1', '1754677', '232', 'DIV1111'),
-('RED1130', '22', '2018-09-22 08:55:14', '1', '1754679', '32', 'DIV1111'),
-('RED1131', '22', '2018-09-22 08:55:16', '1', '1754681', '23', 'DIV1111'),
-('RED1132', '22', '2018-09-22 08:55:17', '1', '1754682', '2', 'DIV1111'),
-('RED1133', '22', '2018-09-22 08:55:18', '1', '1754683', '23', 'DIV1111'),
-('RED1134', '22', '2018-09-22 08:55:19', '1', '1754684', '6', 'DIV1111'),
-('RED1135', '22', '2018-09-22 08:55:19', '1', '1754684', '5', 'DIV1111'),
-('RED1136', '22', '2018-09-22 08:55:19', '1', '1754684', '7', 'DIV1111'),
-('RED1137', '22', '2018-09-22 08:55:20', '1', '1754685', '1', 'DIV1111'),
-('RED1138', '22', '2018-09-22 08:55:20', '1', '1754685', '4', 'DIV1111'),
-('RED1139', '22', '2018-09-22 08:55:20', '1', '1754685', '3', 'DIV1111');
+CREATE TABLE `reading_month` (
+  `id` int(11) NOT NULL,
+  `usage_time` varchar(100) NOT NULL,
+  `wastage_time` varchar(100) NOT NULL,
+  `usageCharge` varchar(100) NOT NULL,
+  `wastageCharge` varchar(100) NOT NULL,
+  `device_id` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reading_month`
+--
+
+INSERT INTO `reading_month` (`id`, `usage_time`, `wastage_time`, `usageCharge`, `wastageCharge`, `device_id`) VALUES
+(1754687, '66', '50', '0.00071958333333333', '5.4513888888889E-5', ''),
+(1754688, '5', '5', '5.4513888888889E-5', '5.4513888888889E-6', 'DIV1112'),
+(1754689, '6', '6', '0.00026166666666667', '2.6166666666667E-5', 'DIV1111'),
+(1754690, '16', '16', '0', '0', 'DIV1112'),
+(1754691, '468', '468', '0.01', '0', 'DIV1112'),
+(1754692, '12', '12', '0.00013083333333333', '1.3083333333333E-5', 'DIV1112');
 
 --
 -- Indexes for dumped tables
@@ -114,6 +107,22 @@ ALTER TABLE `device`
 ALTER TABLE `reading`
   ADD PRIMARY KEY (`id`),
   ADD KEY `device_id` (`device_id`);
+
+--
+-- Indexes for table `reading_month`
+--
+ALTER TABLE `reading_month`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `reading_month`
+--
+ALTER TABLE `reading_month`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1754693;
 
 --
 -- Constraints for dumped tables
