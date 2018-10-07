@@ -136,7 +136,7 @@ class access
             }
             if ($this->check_limit_value($device_id,$value) == 1 ){
 
-                $this->sendMail($userEmail,"Hello User","Limit exceed");
+                $this->sendMail($userEmail,"This device id ($device_id) exceed the limit please consider the device\n\n\n\n Thank You", "$device_id -  exceed the limt");
                 $last_value = $this->get_last_value_in_reading_based_on_device_id($device_id);
                 
                 if($last_value->num_rows > 0){
@@ -375,12 +375,14 @@ class access
     public function get_by_month_money($id){
 
         $voltage = "";
-        $sql_voltage= "SELECT voltage FROM device WHERE id = '$id'";  //get the last value form the database
+        $userEmail = "";
+        $sql_voltage= "SELECT * FROM device WHERE id = '$id'";  //get the last value form the database
         $result_voltage=$this->con->query($sql_voltage); //get the result by executing the sql query
         if ($result_voltage->num_rows > 0) {
             
             while ($row = mysqli_fetch_assoc($result_voltage)) {
                 $voltage = $row["voltage"];
+                $userEmail = $row["created_by"];
                 break;
             }
 
@@ -452,6 +454,9 @@ class access
                 $oututWastage = $output["wastage"];
                 $outputUsageCharge = $output["usageCharge"];
                 $outputWastageCharge = $output["wastageCharge"];
+
+
+                $this->sendMail($userEmail,"Usage in miliseconds $outputUsage Wastage in miliseconds $outputWastage Usage Amount $outputUsageCharge Wastage Amount $outputWastageCharge","Monthly usage result");
                 $sql = "INSERT INTO reading_month (usage_time, wastage_time, usageCharge,wastageCharge,device_id)
                 VALUES ('".$outputUsage."', '".$oututWastage."','".$outputUsageCharge."','".$outputWastageCharge."','".$id."')";
                 if ($this->con->query($sql) === TRUE) {
