@@ -475,6 +475,22 @@ class access
             return [];
         }
     }
+
+    public function get_result($id){
+        $sql= "SELECT * FROM reading_month WHERE device_id = '$id' ";  //get the last value form the database
+        $result=$this->con->query($sql); //get the result by executing the sql query
+        if ($result->num_rows > 0) {
+            //value available
+            $returnResult = [];
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                array_push($returnResult,$row);
+            }
+            return $returnResult;
+        } else {
+            return [];
+        }
+    }
     public function sendMail($receiver, $body, $subject){
         //MARK: - Sending Mail
         require("vendor/autoload.php");
